@@ -1,0 +1,9 @@
+<div class="cities_container">
+    <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input type="text" pInputText placeholder="Поиск города" [(ngModel)]="city" (input) = "inputCity()" />
+    </span>
+    <div *ngIf = "cities.length">
+          <p-listbox [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" (click) = "selectCity()"></p-listbox>
+    </div>
+</div>

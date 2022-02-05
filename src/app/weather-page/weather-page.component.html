@@ -1,0 +1,51 @@
+<div class="background">
+  <div class="header">  
+    <img class="logo" src="/assets/images/umbrella.png">
+    <div class="search">
+      <app-city (onClick)="getCity($event)"></app-city>
+    </div>
+  </div>
+    <div class="weather" *ngIf="weather$ | async as weather">      
+      <div class="current_weather">
+        <img class="icon_current_weather" src="http://openweathermap.org/img/wn/{{weather.current.weather[0].icon}}.png">
+        <span class="temp">{{weather.current.temp | temp}}&deg;</span>
+        <div class="description">
+          <span>{{weather.current.weather[0].description.toUpperCase()}}</span>
+          <span class="feels_like">ощущается как {{weather.current.feels_like | temp}}&deg;</span>
+          <span>Макс. {{weather.daily[0].temp.max | temp}}&deg;, мин. {{weather.daily[0].temp.min | temp}}&deg;</span>
+        </div>
+      </div>
+      <div class="hour_container">
+        <p-carousel [value]="weather.hourly" [numVisible]="10" [showIndicators] = 'false'>
+          <ng-template let-weather pTemplate="item">
+            <div class="hour_weather">
+              <span>{{weather.dt | hour}}</span>
+              <span class="pop">{{weather.pop | percent}}</span>
+              <img class="icon" src="http://openweathermap.org/img/wn/{{weather.weather[0].icon}}.png">
+              <span>{{weather.temp | temp}}&deg;</span>
+            </div>              
+          </ng-template>
+        </p-carousel>
+      </div>
+      <div class="day_container" *ngFor = "let day of weather.daily">
+        <div class="day">
+          <span class="day_date">{{day.dt | day}}</span>
+          <img class="icon" src="http://openweathermap.org/img/wn/{{day.weather[0].icon}}.png">
+          <span class="day_description">{{day.weather[0].description}}</span>
+          <span class="day_temp">{{day.temp.day | temp}}&deg;</span>
+          <span class="night_temp">{{day.temp.night | temp}}&deg;</span>
+          <div class="wind">
+            <i class="pi pi-arrow-right" [style.transform]="getDirection(day.wind_deg)"></i>
+            <span>{{day.wind_speed}} м/с</span>
+          </div>
+          <div class="humidity">
+            <img src="/assets/images/humidity.png" height="20px">
+            <span>{{day.humidity}} %</span>
+          </div>
+        </div>
+      </div>
+    
+
+    </div>
+    
+</div>
